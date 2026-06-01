@@ -3,6 +3,7 @@ from pygame.locals import QUIT, KEYDOWN
 
 clock = pygame.time.Clock()
 
+#Definição de variáveis e etc
 curr_frame = 0
 anim_time = 0
 pos_x = 100
@@ -11,6 +12,10 @@ run_animation = False
 curr_frame_mm = 0
 anim_time_mm = 0
 direcao = 0
+
+#mapas
+mapa = []
+
 
 pygame.init()
 screen = pygame.display.set_mode((800, 600))
@@ -24,24 +29,22 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
-        if event.type == KEYDOWN:
-            if event.key == pygame.K_d:
-                run_animation = True
-                direcao = 3
-            elif event.key == pygame.K_a:
-                run_animation = True
-                direcao = 1
-            elif event.key == pygame.K_w:
-                run_animation = True
-                direcao = 0
-            elif event.key == pygame.K_s:
-                run_animation = True
-                direcao = 2
 
+    keys = pygame.key.get_pressed()
 
+    if keys[pygame.K_a]:
+        run_animation = True
+        direcao = 1
+    elif keys[pygame.K_d]:
+        run_animation = True
+        direcao = 3
+    elif keys[pygame.K_w]:
+        run_animation = True
+        direcao = 0
+    elif keys[pygame.K_s]:
+        run_animation = True
+        direcao = 2
                 
-                
-
 
     clock.tick(60)
     dt = clock.get_time()
