@@ -27,12 +27,10 @@ while True:
         if event.type == KEYDOWN:
             if event.key == pygame.K_d:
                 run_animation = True
-                pos_x = pos_x + 5
                 direcao = 3
             elif event.key == pygame.K_a:
                 run_animation = True
                 direcao = 1
-                pos_x = pos_x - 5
             elif event.key == pygame.K_w:
                 run_animation = True
                 direcao = 0
