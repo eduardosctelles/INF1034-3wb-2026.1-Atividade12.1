@@ -19,24 +19,14 @@ direcao = 0
 tile_size_joguinho = 64
 collider_1 = pygame.Rect(0, 0, 0, 0)
 
-#mapas
-mapa = [
-  "XXXXXXXXXXXXXX",
-  "XXXXXXXXXXXXXX", 
-  "XXXXXXXXXXXXXX", 
-  "XXXXXXXXXXXXXX", 
-  "XXXXXXXXXXXXXX", 
-  "XXXXXXXXXXXXXX", 
-  "XXXXXXXXXXXBXX", 
-  "GGGGGGGGGGGTGG", 
-  "TTTTTTTTTTTTTT", 
-  "TTTTTTTTTTTTTT",
-]
+f = open("mapa.txt", "r")
+mapa = [line.strip() for line in f.readlines()]
+f.close()
 
 def renderiza_mapa(mapa):
     global collider_1
-    for i in range(len(mapa)): # Para cada linha
-        for j in range(len(mapa[i])): # Para cada coluna (letra)
+    for i in range(len(mapa)):
+        for j in range(len(mapa[i])):
             if mapa[i][j] == "G":
                 screen.blit(tileset, (j * tile_size_joguinho, i * tile_size_joguinho), (64, 0, tile_size_joguinho, tile_size_joguinho))
             elif mapa[i][j] == "T":
@@ -61,6 +51,8 @@ while True:
 
     keys = pygame.key.get_pressed()
 
+    old_pos_x = pos_x
+
     if keys[pygame.K_a]:
         run_animation = True
         direcao = 1
@@ -68,17 +60,12 @@ while True:
         run_animation = True
         direcao = 3
 
-    # Desenho dos elementos na tela
     screen.fill((255,255,255))
 
-    renderiza_mapa(mapa)            
+    renderiza_mapa(mapa)
 
     clock.tick(60)
     dt = clock.get_time()
-
-    if pos_x == 730 or pos_x == 5:
-        run_animation = False
-        #botar o colider aqui
 
     if run_animation:
         anim_time_mm = anim_time_mm + dt
@@ -90,13 +77,24 @@ while True:
                 pos_x = pos_x - 6.25
             elif direcao == 3:
                 pos_x = pos_x + 6.25
-            
 
             if curr_frame_mm > 9:
                 curr_frame_mm = 0
                 run_animation = False
 
             anim_time_mm = 0
+
+    if pos_x + 16 <= 0:
+        pos_x = 0
+        run_animation = False
+    if pos_x + 16 + 32 >= 800:
+        pos_x = 800 - 64
+        run_animation = False
+
+    collider_jogador = pygame.Rect(pos_x + 16, pos_y, 32, 64)
+    if collider_jogador.colliderect(collider_1):
+        pos_x = old_pos_x
+        run_animation = False
 
     if curr_frame_mm < 5:
         screen.blit(sprite_sheet,(pos_x, pos_y),(64 * curr_frame_mm, 0 + 64*direcao, 64, 64))
