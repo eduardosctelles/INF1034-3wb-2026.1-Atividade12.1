@@ -11,7 +11,7 @@ tileset = pygame.image.load("[64x64] Rocky Grass.png")
 curr_frame = 0
 anim_time = 0
 pos_x = 100
-pos_y = 200
+pos_y = 390
 run_animation = False
 curr_frame_mm = 0
 anim_time_mm = 0
@@ -75,6 +75,10 @@ while True:
 
     clock.tick(60)
     dt = clock.get_time()
+
+    if pos_x == 730 or pos_x == 5:
+        run_animation = False
+        #botar o colider aqui
 
     if run_animation:
         anim_time_mm = anim_time_mm + dt
